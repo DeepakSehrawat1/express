@@ -1,26 +1,15 @@
-const express = require("express");
-const parser = require("body-parser");
+const express = require("express"); //return function
+const parser = require("body-parser"); //return obj
+
+const adminroutes = require("./routes/admin");
+const shoproutes = require("./routes/shop");
 
 const app = express();
 
-app.use(parser.urlencoded({ extended: false }));
+app.use(parser.urlencoded({ extended: false })); // here parser.urlencoded() returns a middleware that parses the body of incoming request
+// and add the data recieved to req.body and calls next function
 
-app.use("/add-product", (req, res, next) => {
-  console.log(req.body);
-  res.redirect("/");
-});
-
-app.use("/product", (req, res, next) => {
-  console.log("middleware 2");
-  res.send(
-    `<form action = "/add-product" method = "POST"><input type = "text" name = "title"><button type="submit">send</button></form>`
-  );
-});
-
-app.use("/", (req, res, next) => {
-  console.log("middleware 1000");
-
-  res.send(`<h1>hello</h1>`);
-});
+app.use(adminroutes);
+app.use(shoproutes);
 
 app.listen(5000);
